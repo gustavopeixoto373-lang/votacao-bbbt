@@ -1,328 +1,214 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Votação — Reality Show</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Votação Reality Show</title>
 <style>
-  :root{
-    --bg:#0d0f14; --panel:#141824; --muted:#8a90a2; --text:#e9ecf1;
-    --brand:#ff7a00; --brand-2:#ff3c54; --radius:18px; --shadow:0 10px 25px rgba(0,0,0,.35);
-  }
-  *{box-sizing:border-box} html,body{height:100%}
-  body{margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-        background: radial-gradient(1200px 600px at 80% -10%, rgba(255,122,0,.18), transparent 60%),
-                   radial-gradient(800px 400px at -10% 10%, rgba(255,60,84,.18), transparent 60%),
-                   var(--bg); color:var(--text);}
-  .container{max-width:1100px;margin:0 auto;padding:24px}
-  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(8px);
-         background:linear-gradient(90deg, rgba(13,15,20,.7), rgba(13,15,20,.6));
-         border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav{display:flex;align-items:center;gap:16px;padding:14px 24px}
-  .logo{display:flex;align-items:center;gap:12px;cursor:pointer}
-  .mark{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 220deg,var(--brand),var(--brand-2))}
-  .hero{padding:28px 24px 14px}
-  .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
-  .banner{height:220px;border-radius:var(--radius);background:
-    linear-gradient(120deg, rgba(255,122,0,.3), rgba(255,60,84,.35));box-shadow:var(--shadow)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); overflow:hidden;}
-  .media{position:relative;padding-top:70%;background:#0b0d12}
-  .avatar{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:28px;color:#0b0d12;background:linear-gradient(145deg,#f3f4f6,#cbd5e1)}
-  .avatar img{width:76%;height:76%;object-fit:cover;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
-  .body{padding:14px 14px 16px}
-  .name{font-weight:700}
-  .muted{color:var(--muted);font-size:14px}
-  .bar{height:10px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin-top:10px}
-  .bar > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--brand),var(--brand-2))}
-  .actions{display:flex;gap:10px;margin-top:14px}
-  .btn{flex:1;display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);color:white;background:rgba(255,255,255,.04);cursor:pointer;transition:.15s}
-  .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));border:none}
-  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:1000}
-  .modal.open{display:flex}
-  .sheet{width:min(920px,96vw);background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
-  .row{display:flex;gap:10px;align-items:center}
-  .input{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0b0d12;color:var(--text)}
-  .admin-btn{position:fixed;right:14px;bottom:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;border-radius:999px;padding:10px 12px;cursor:pointer}
-  .tag{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);font-size:12px}
-  .small{font-size:13px;color:var(--muted)}
-  @media(max-width:860px){ .hero-inner{grid-template-columns:1fr} .banner{order:-1;height:180px} .sheet{width:92vw} }
+:root{--bg:#0d0f14;--panel:#141824;--muted:#8a90a2;--text:#e9ecf1;--brand:#ff7a00;--brand2:#ff3c54;--radius:18px;--shadow:0 10px 25px rgba(0,0,0,.35);}
+body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);}
+.container{max-width:1100px;margin:0 auto;padding:24px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.card{background:var(--panel);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.avatar{height:140px;background:#0b0d12;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:700;color:#fff;}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.body{padding:12px;}
+.btn{cursor:pointer;padding:8px 12px;border-radius:12px;border:none;color:#fff;background:linear-gradient(90deg,var(--brand),var(--brand2));width:100%;}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:1000;}
+.modal.open{display:flex;}
+.sheet{background:var(--panel);border-radius:18px;padding:20px;max-width:600px;width:90%;max-height:90%;overflow:auto;}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.input{flex:1;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b0d12;color:var(--text);}
+.small{font-size:12px;color:var(--muted);}
 </style>
 </head>
 <body>
-<header>
-  <div class="nav container">
-    <div class="logo"><div class="mark"></div><span>Reality • Votação</span></div>
-  </div>
-</header>
-
-<section class="hero container">
-  <div class="hero-inner">
-    <div>
-      <h1>Paredão da Semana</h1>
-      <p>Escolha quem deve <strong>sair</strong> da casa.</p>
-    </div>
-    <div class="banner"></div>
-  </div>
-</section>
-
-<main class="container">
+<div class="container">
+  <h1>Paredão da Semana</h1>
+  <p>Escolha quem deve sair da casa.</p>
   <div class="grid" id="grid"></div>
-</main>
+</div>
 
-<!-- Modal de votação -->
-<div class="modal" id="modal">
-  <div class="sheet" style="max-width:520px; text-align:center;">
-    <div id="voteConfirmed" style="display:none;">
-      <h3>Voto confirmado!</h3>
-      <div class="avatar" id="votePhoto" style="width:120px;height:120px;margin:12px auto;"></div>
-      <div class="name" id="voteName" style="margin-top:8px;"></div>
-      <button class="btn primary" onclick="closeVoteModal()">Fechar</button>
-    </div>
+<!-- Modal Voto -->
+<div class="modal" id="voteModal">
+  <div class="sheet">
     <div id="voteForm">
-      <h3>Confirmar voto em <span id="modalName"></span>?</h3>
-      <div class="row" style="margin:10px 0;">
-        <input type="checkbox" id="chkHuman"/><label for="chkHuman">Eu não sou um robô</label>
+      <h3 id="voteModalName"></h3>
+      <div class="row"><input type="checkbox" id="chkHuman"/><label for="chkHuman">Não sou robô</label></div>
+      <div class="row">Quanto é <b id="challenge"></b>? <input class="input" id="challengeAnswer" type="number"/></div>
+      <div class="row" style="justify-content:flex-end;">
+        <button class="btn" id="btnCancelVote">Cancelar</button>
+        <button class="btn" id="btnConfirmVote">Confirmar</button>
       </div>
-      <div class="row">
-        <label style="min-width:120px">Quanto é <b id="challenge"></b>?</label>
-        <input class="input" id="challengeAnswer" placeholder="Sua resposta" inputmode="numeric"/>
-      </div>
-      <div class="row" style="justify-content:flex-end;margin-top:14px">
-        <button class="btn" id="btnCancel">Cancelar</button>
-        <button class="btn primary" id="btnConfirm">Confirmar voto</button>
-      </div>
-      <p class="muted" id="modalError" style="display:none;color:#ef4444;margin-top:10px">Resposta incorreta ou verificação não marcada.</p>
+      <p class="small" id="voteError" style="color:#ef4444;display:none;">Resposta incorreta ou não marcou a verificação.</p>
+    </div>
+    <div id="voteSuccess" style="display:none;text-align:center;">
+      <h3>Voto confirmado!</h3>
+      <div class="avatar" id="voteSuccessAvatar" style="margin:10px auto;width:120px;height:120px;"></div>
+      <div id="voteSuccessName" style="margin-bottom:12px;"></div>
+      <button class="btn" onclick="closeVoteModal()">Fechar</button>
     </div>
   </div>
 </div>
 
-<!-- Admin Modal -->
-<div class="modal" id="admin">
+<!-- Admin -->
+<div class="modal" id="adminModal">
   <div class="sheet">
-    <h3>Painel Administrativo</h3>
-    <div id="adminLockArea">
-      <div class="row" style="gap:10px;margin-bottom:10px">
-        <input class="input" id="adminPass" placeholder="Senha do admin (padrão: admin123)"/>
-        <button class="btn primary" id="btnUnlock">Desbloquear</button>
+    <div id="adminLock">
+      <h3>Painel Admin</h3>
+      <div class="row"><input class="input" type="password" id="adminPass" placeholder="Senha admin"/><button class="btn" id="btnUnlock">Desbloquear</button></div>
+    </div>
+    <div id="adminArea" style="display:none;">
+      <h3>Participantes</h3>
+      <div id="contestantsList" style="margin-bottom:12px;"></div>
+      <div class="row"><input class="input" id="newName" placeholder="Nome participante"/><input class="input" id="newPhoto" placeholder="URL foto"/></div>
+      <div class="row"><input type="file" id="newPhotoFile" accept="image/*"/><button class="btn" id="btnAddParticipant">Adicionar</button></div>
+      <h3>Configurações</h3>
+      <div class="row"><label>Cooldown (s)</label><input class="input" id="cfgCooldown" type="number" value="60" style="width:80px;"/></div>
+      <div class="row"><label>Voto único por sessão</label><input type="checkbox" id="cfgUnique" checked/></div>
+      <div class="row"><label>Nova senha admin</label><input class="input" id="adminPassNew"/></div>
+      <div class="row" style="justify-content:flex-end;">
+        <button class="btn" id="btnResetVotes">Resetar votos</button>
+        <button class="btn" id="btnSaveConfig">Salvar</button>
+        <button class="btn" id="btnExportCSV">Exportar CSV</button>
+        <button class="btn" id="btnExportJSON">Exportar JSON</button>
       </div>
+      <h3>Log</h3>
+      <div id="audit" style="font-size:12px;max-height:200px;overflow:auto;background:#0b0d12;padding:6px;border-radius:10px;"></div>
+      <button class="btn" id="btnClearLog" style="margin-top:8px;">Limpar log</button>
     </div>
-    <div id="adminArea" style="display:none">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="card" style="padding:14px">
-          <h4>Concorrentes</h4>
-          <div id="contestantsList" style="display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto"></div>
-          <div class="row" style="gap:8px;margin-top:8px">
-            <input class="input" id="newName" placeholder="Nome do participante"/>
-            <input class="input" id="newPhoto" placeholder="URL da foto"/>
-          </div>
-          <div class="row" style="gap:8px;margin-top:8px">
-            <input type="file" id="newPhotoFile" accept="image/*"/>
-            <button class="btn primary" id="btnAddParticipant">Adicionar</button>
-          </div>
-        </div>
-
-        <div class="card" style="padding:14px">
-          <h4>Configurações</h4>
-          <div class="row" style="gap:8px;margin-bottom:8px">
-            <label style="min-width:160px">Cooldown (segundos)</label>
-            <input class="input" id="cfgCooldown" type="number" min="0" value="60" style="max-width:160px"/>
-          </div>
-          <div class="row" style="gap:8px;margin-bottom:8px">
-            <label style="min-width:160px">Voto único por sessão</label>
-            <input type="checkbox" id="cfgUnique" checked/>
-          </div>
-          <div class="row" style="gap:8px;margin-bottom:8px">
-            <label style="min-width:160px">Senha admin</label>
-            <input class="input" id="adminPassNew" placeholder="deixe em branco para manter"/>
-          </div>
-          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-            <button class="btn" id="btnResetVotes">Zerar Votos</button>
-            <button class="btn primary" id="btnSaveConfig">Salvar Config</button>
-          </div>
-        </div>
-
-        <div class="card" style="padding:14px">
-          <h4>Auditoria</h4>
-          <div id="audit" style="max-height:260px;overflow:auto;font-size:12px;background:#0b0d12;border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.08)"></div>
-          <div style="margin-top:8px;display:flex;justify-content:flex-end">
-            <button class="btn" id="btnClearAudit">Limpar Log</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row" style="justify-content:flex-end;margin-top:12px">
-      <button class="btn" id="closeAdmin">Fechar</button>
-    </div>
+    <div class="row" style="justify-content:flex-end;margin-top:8px;"><button class="btn" id="closeAdmin">Fechar</button></div>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY='bbb_demo_state_v5';
-const COOLDOWN_KEY='bbb_demo_last_vote_at';
-const ADMIN_PASS_KEY='bbb_demo_admin_pass';
+const STORAGE_KEY='bbb_state_v6';
+const COOLDOWN_KEY='bbb_last_vote';
+const ADMIN_PASS_KEY='bbb_admin_pass';
 const DEFAULT_ADMIN_PASS='admin123';
 
-const DEFAULT_STATE = {
-  cfg:{cooldownSec:60, uniquePerSession:true, mode:'public'},
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+  cfg:{cooldownSec:60, unique:true},
   contestants:[
-    {id:'ana',nome:'Ana',votos:0,photo:null,cor:'#ffd166'},
-    {id:'bruno',nome:'Bruno',votos:0,photo:null,cor:'#ef476f'},
-    {id:'carol',nome:'Carol',votos:0,photo:null,cor:'#06d6a0'}
+    {id:'ana',nome:'Ana',votos:0,photo:null},
+    {id:'bruno',nome:'Bruno',votos:0,photo:null},
+    {id:'carol',nome:'Carol',votos:0,photo:null}
   ],
   total:0,
   audit:[]
 };
-
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(DEFAULT_STATE);
-
-const els = {
-  grid: document.getElementById('grid'),
-  modal: document.getElementById('modal'),
-  modalName: document.getElementById('modalName'),
-  challenge: document.getElementById('challenge'),
-  challengeAnswer: document.getElementById('challengeAnswer'),
-  chkHuman: document.getElementById('chkHuman'),
-  modalError: document.getElementById('modalError'),
-  btnConfirm: document.getElementById('btnConfirm'),
-  btnCancel: document.getElementById('btnCancel'),
-  votePhoto: document.getElementById('votePhoto'),
-  voteName: document.getElementById('voteName'),
-  voteConfirmed: document.getElementById('voteConfirmed'),
-  voteForm: document.getElementById('voteForm'),
-  admin: document.getElementById('admin'),
-  adminPass: document.getElementById('adminPass'),
-  btnUnlock: document.getElementById('btnUnlock'),
-  adminArea: document.getElementById('adminArea'),
-  contestantsList: document.getElementById('contestantsList'),
-  newName: document.getElementById('newName'),
-  newPhoto: document.getElementById('newPhoto'),
-  newPhotoFile: document.getElementById('newPhotoFile'),
-  btnAddParticipant: document.getElementById('btnAddParticipant'),
-  cfgCooldown: document.getElementById('cfgCooldown'),
-  cfgUnique: document.getElementById('cfgUnique'),
-  adminPassNew: document.getElementById('adminPassNew'),
-  btnSaveConfig: document.getElementById('btnSaveConfig'),
-  btnResetVotes: document.getElementById('btnResetVotes'),
-  audit: document.getElementById('audit'),
-  btnClearAudit: document.getElementById('btnClearAudit'),
-  closeAdmin: document.getElementById('closeAdmin')
-};
-
 let currentVote = null;
 
-// Funções de render
+// Render grid
 function renderGrid(){
-  els.grid.innerHTML='';
+  const grid=document.getElementById('grid'); grid.innerHTML='';
   state.contestants.forEach(c=>{
-    const card = document.createElement('div'); card.className='card';
-    const avatar = document.createElement('div'); avatar.className='avatar';
+    const card=document.createElement('div'); card.className='card';
+    const avatar=document.createElement('div'); avatar.className='avatar';
     if(c.photo){ const img=document.createElement('img'); img.src=c.photo; avatar.appendChild(img);}
     else avatar.textContent=c.nome[0];
-    const body = document.createElement('div'); body.className='body';
-    const name = document.createElement('div'); name.className='name'; name.textContent=c.nome;
+    const body=document.createElement('div'); body.className='body';
+    const name=document.createElement('div'); name.textContent=c.nome; name.className='name';
     body.appendChild(name);
-    const btn = document.createElement('button'); btn.className='btn primary'; btn.textContent='Votar';
-    btn.onclick=()=>openVote(c.id);
+    const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Votar'; btn.onclick=()=>openVote(c.id);
     body.appendChild(btn);
     card.appendChild(avatar); card.appendChild(body);
-    els.grid.appendChild(card);
+    grid.appendChild(card);
   });
 }
 
 function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
-
-// Votação
 function openVote(id){
   currentVote = state.contestants.find(c=>c.id===id);
-  els.modalName.textContent=currentVote.nome;
+  document.getElementById('voteModalName').textContent=currentVote.nome;
   const a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1;
-  els.challenge.textContent=`${a} + ${b}`;
-  els.challenge.dataset.answer = a+b;
-  els.chkHuman.checked=false;
-  els.challengeAnswer.value='';
-  els.modalError.style.display='none';
-  els.voteConfirmed.style.display='none';
-  els.voteForm.style.display='block';
-  els.modal.classList.add('open');
+  const challenge = document.getElementById('challenge');
+  challenge.textContent=`${a} + ${b}`;
+  challenge.dataset.answer=a+b;
+  document.getElementById('chkHuman').checked=false;
+  document.getElementById('challengeAnswer').value='';
+  document.getElementById('voteError').style.display='none';
+  document.getElementById('voteForm').style.display='block';
+  document.getElementById('voteSuccess').style.display='none';
+  document.getElementById('voteModal').classList.add('open');
 }
-els.btnCancel.onclick=()=>els.modal.classList.remove('open');
-els.btnConfirm.onclick=()=>{
-  const answer = parseInt(els.challengeAnswer.value);
-  if(!els.chkHuman.checked || answer!==parseInt(els.challenge.dataset.answer)){
-    els.modalError.style.display='block';
-    return;
+document.getElementById('btnCancelVote').onclick=()=>document.getElementById('voteModal').classList.remove('open');
+function closeVoteModal(){document.getElementById('voteModal').classList.remove('open');}
+
+document.getElementById('btnConfirmVote').onclick=()=>{
+  const ans=parseInt(document.getElementById('challengeAnswer').value);
+  if(!document.getElementById('chkHuman').checked || ans!==parseInt(document.getElementById('challenge').dataset.answer)){
+    document.getElementById('voteError').style.display='block'; return;
   }
-  const lastVote=localStorage.getItem(COOLDOWN_KEY);
-  const now=Date.now();
-  if(state.cfg.uniquePerSession && lastVote && now-parseInt(lastVote)<state.cfg.cooldownSec*1000){
-    alert(`Aguarde ${state.cfg.cooldownSec} segundos entre votos`);
-    return;
+  const last=localStorage.getItem(COOLDOWN_KEY); const now=Date.now();
+  if(state.cfg.unique && last && now-parseInt(last)<state.cfg.cooldownSec*1000){
+    alert(`Aguarde ${state.cfg.cooldownSec} segundos entre votos`); return;
   }
-  currentVote.votos++;
-  state.total++;
+  currentVote.votos++; state.total++;
   state.audit.push(`${new Date().toLocaleTimeString()} - Votou em ${currentVote.nome}`);
-  saveState();
-  localStorage.setItem(COOLDOWN_KEY,now.toString());
-  els.votePhoto.innerHTML=currentVote.photo?`<img src="${currentVote.photo}"/>`:currentVote.nome[0];
-  els.voteName.textContent=currentVote.nome;
-  els.voteForm.style.display='none';
-  els.voteConfirmed.style.display='block';
+  saveState(); localStorage.setItem(COOLDOWN_KEY,now.toString());
+  const sAv=document.getElementById('voteSuccessAvatar'); sAv.innerHTML=currentVote.photo?`<img src="${currentVote.photo}"/>`:currentVote.nome[0];
+  document.getElementById('voteSuccessName').textContent=currentVote.nome;
+  document.getElementById('voteForm').style.display='none';
+  document.getElementById('voteSuccess').style.display='block';
 };
 
 // Admin
-document.addEventListener('keydown',e=>{
-  if(e.shiftKey && e.key.toLowerCase()==='f'){
-    els.admin.classList.add('open');
-  }
-});
-els.closeAdmin.onclick=()=>els.admin.classList.remove('open');
-els.btnUnlock.onclick=()=>{
-  const pass = els.adminPass.value || DEFAULT_ADMIN_PASS;
+document.addEventListener('keydown',e=>{if(e.shiftKey && e.key.toLowerCase()==='f')document.getElementById('adminModal').classList.add('open');});
+document.getElementById('closeAdmin').onclick=()=>document.getElementById('adminModal').classList.remove('open');
+
+document.getElementById('btnUnlock').onclick=()=>{
+  const pass=document.getElementById('adminPass').value||DEFAULT_ADMIN_PASS;
   if(pass===localStorage.getItem(ADMIN_PASS_KEY) || pass===DEFAULT_ADMIN_PASS){
-    els.adminArea.style.display='block';
-    els.adminLockArea.style.display='none';
-    renderAdmin();
+    document.getElementById('adminArea').style.display='block'; document.getElementById('adminLock').style.display='none'; renderAdmin();
   }else alert('Senha incorreta');
 };
+
 function renderAdmin(){
-  els.contestantsList.innerHTML='';
+  const list=document.getElementById('contestantsList'); list.innerHTML='';
   state.contestants.forEach(c=>{
     const div=document.createElement('div'); div.className='row';
-    div.textContent=c.nome+' ('+c.votos+' votos)';
-    const btn=document.createElement('button'); btn.textContent='Remover'; btn.className='btn'; btn.onclick=()=>{
-      state.contestants=state.contestants.filter(x=>x.id!==c.id);
-      saveState(); renderAdmin(); renderGrid();
-    };
-    div.appendChild(btn);
-    els.contestantsList.appendChild(div);
+    div.textContent=`${c.nome} (${c.votos} votos)`;
+    const btn=document.createElement('button'); btn.textContent='Remover'; btn.className='btn';
+    btn.onclick=()=>{state.contestants=state.contestants.filter(x=>x.id!==c.id); saveState(); renderGrid(); renderAdmin();};
+    div.appendChild(btn); list.appendChild(div);
   });
-  els.audit.innerHTML=state.audit.join('<br>');
+  document.getElementById('audit').innerHTML=state.audit.join('<br>');
 }
-els.btnAddParticipant.onclick=()=>{
-  const nome=els.newName.value.trim(); if(!nome) return;
-  let photo = els.newPhoto.value.trim()||null;
+
+// Adicionar participante
+document.getElementById('btnAddParticipant').onclick=()=>{
+  const nome=document.getElementById('newName').value.trim(); if(!nome) return;
+  const photo=document.getElementById('newPhoto').value.trim()||null;
   const id=nome.toLowerCase().replace(/\s+/g,'')+Date.now();
-  state.contestants.push({id,nome,votos:0,photo,cor:'#06d6a0'});
-  saveState(); renderGrid(); renderAdmin();
-  els.newName.value=''; els.newPhoto.value='';
+  state.contestants.push({id,nome,votos:0,photo}); saveState(); renderGrid(); renderAdmin();
+  document.getElementById('newName').value=''; document.getElementById('newPhoto').value='';
 };
-els.btnResetVotes.onclick=()=>{
-  state.contestants.forEach(c=>c.votos=0);
-  state.total=0;
-  state.audit.push(`${new Date().toLocaleTimeString()} - Votos resetados`);
-  saveState(); renderGrid(); renderAdmin();
-};
-els.btnClearAudit.onclick=()=>{state.audit=[]; saveState(); renderAdmin();};
-els.btnSaveConfig.onclick=()=>{
-  state.cfg.cooldownSec=parseInt(els.cfgCooldown.value)||60;
-  state.cfg.uniquePerSession=els.cfgUnique.checked;
-  const newPass=els.adminPassNew.value.trim();
+
+// Configuração
+document.getElementById('btnSaveConfig').onclick=()=>{
+  state.cfg.cooldownSec=parseInt(document.getElementById('cfgCooldown').value)||60;
+  state.cfg.unique=document.getElementById('cfgUnique').checked;
+  const newPass=document.getElementById('adminPassNew').value.trim();
   if(newPass) localStorage.setItem(ADMIN_PASS_KEY,newPass);
   saveState(); alert('Configurações salvas');
 };
+document.getElementById('btnResetVotes').onclick=()=>{
+  state.contestants.forEach(c=>c.votos=0); state.total=0; state.audit.push(`${new Date().toLocaleTimeString()} - Votos resetados`);
+  saveState(); renderGrid(); renderAdmin();
+};
+document.getElementById('btnClearLog').onclick=()=>{state.audit=[]; saveState(); renderAdmin();};
 
-// Inicialização
+// Export CSV/JSON
+function downloadFile(filename,data){const a=document.createElement('a'); a.href=data; a.download=filename; a.click();}
+document.getElementById('btnExportCSV').onclick=()=>{
+  const csv='Nome,Votos\n'+state.contestants.map(c=>`${c.nome},${c.votos}`).join('\n');
+  downloadFile('votos.csv','data:text/csv;charset=utf-8,'+encodeURIComponent(csv));
+};
+document.getElementById('btnExportJSON').onclick=()=>{
+  downloadFile('votos.json','data:text/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(state,null,2)));
+};
+
 renderGrid();
 </script>
 </body>
