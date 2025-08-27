@@ -3,370 +3,329 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Votação — Paredão (Local)</title>
+<title>Votação</title>
 <style>
-:root{--bg:#0d0f14;--panel:#111216;--muted:#9aa3b3;--text:#e9eef6;--brand:#ff7a00;--accent:#ff3c54;--radius:14px}
-*{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071018 0%,var(--bg) 100%);color:var(--text)}
+:root{--bg:#071022;--panel:#0d1116;--muted:#93a0b3;--text:#e6eef8;--brand:#ff7a00;--accent:#ff3c54;--radius:12px}
+*{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),#071022);color:var(--text)}
 .container{max-width:1100px;margin:0 auto;padding:20px}
 .header{display:flex;align-items:center;gap:12px}
-.logo{display:flex;align-items:center;gap:10px}
-.mark{width:40px;height:40px;border-radius:10px;background:conic-gradient(from 220deg,var(--brand),var(--accent))}
-.h1{font-size:20px;font-weight:700}
-.topbar{display:flex;align-items:center;gap:12px;margin-left:auto}
-.pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.03);font-size:13px}
+.title{font-weight:700;font-size:20px}
 .layout{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
-@media(max-width:980px){.layout{grid-template-columns:1fr}.topbar{display:none}}
+@media(max-width:980px){.layout{grid-template-columns:1fr}}
 .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.04);padding:14px;border-radius:var(--radius)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.media{height:160px;border-radius:10px;display:grid;place-items:center;background:#0b0d12;overflow:hidden}
+.media{height:160px;border-radius:10px;display:grid;place-items:center;background:#071018;overflow:hidden}
 .media img{width:100%;height:100%;object-fit:cover}
 .avatarLetters{font-weight:800;font-size:44px;color:#0b0d12;padding:18px;border-radius:8px}
 .body{margin-top:10px}
 .name{font-weight:700}
 .muted{color:var(--muted);font-size:13px}
 .actions{display:flex;gap:8px;margin-top:10px}
-.btn{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);cursor:pointer}
+.btn{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);cursor:pointer}
 .btn.primary{background:linear-gradient(90deg,var(--brand),var(--accent));border:none;color:#081018}
 .bar{height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;margin-top:10px}
 .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--accent))}
-.admin-btn{position:fixed;right:14px;bottom:14px;padding:10px 12px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);cursor:pointer}
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6)}
-.modal.open{display:flex}
-.sheet{width:min(920px,96vw);background:var(--panel);padding:16px;border-radius:12px}
-.row{display:flex;gap:10px;align-items:center}
-.input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:#071018;color:var(--text)}
+.admin-panel{position:fixed;right:20px;top:20px;left:20px;bottom:20px;background:var(--panel);border-radius:12px;padding:16px;overflow:auto;display:none;z-index:80}
+.admin-panel.open{display:block}
+.abas{display:flex;gap:8px;margin-bottom:12px}
+.aba{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+.aba.ativa{background:linear-gradient(90deg,var(--brand),var(--accent));color:#081018}
+.hidden{display:none}
+.form-row{display:flex;gap:8px;margin-top:8px}
+.input{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:#071018;color:var(--text);flex:1}
 .small{font-size:13px;color:var(--muted)}
-.danger{background:transparent;border:1px solid rgba(239,68,68,0.35);color:#fecaca}
-.code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;background:#071018;padding:8px;border-radius:8px;color:var(--muted)}
+.toolbar{display:flex;gap:8px}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;background:#071018;padding:6px;border-radius:8px;color:var(--muted)}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:90}
+.modal.open{display:flex}
+.sheet{width:min(720px,96vw);background:var(--panel);padding:16px;border-radius:10px}
 </style>
 </head>
 <body>
   <div class="container">
     <header class="header">
-      <div class="logo"><div class="mark" aria-hidden></div><div><div class="h1">Paredão — Votação Local</div><div class="small">Sistema local (localStorage)</div></div></div>
-      <div class="topbar">
-        <div class="pill" id="voteCountPill">0 votos</div>
-        <div class="pill" id="cooldownPill">Pronto</div>
-      </div>
+      <div class="title">Votação</div>
+      <div style="margin-left:auto" id="statusArea" class="small"></div>
     </header>
 
     <main class="layout">
       <section>
         <div class="card">
           <h3 style="margin:0 0 8px">Vote agora</h3>
-          <p class="small">Clique no botão para votar. Usuários comuns não veem quantos votos cada participante tem.</p>
-          <div id="grid" class="grid" style="margin-top:12px"></div>
+          <div id="grid" class="grid"></div>
         </div>
       </section>
 
       <aside>
         <div class="card">
           <h4 style="margin:0 0 8px">Painel</h4>
-          <div id="panelPublic">
-            <p class="small">Se você for o administrador, clique em <b>Entrar (admin)</b> para desbloquear funções.</p>
-            <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="btnEnterAdmin">Entrar (admin)</button><button class="btn" id="btnAbout">Sobre</button></div>
-          </div>
-
-          <div id="panelAdmin" style="display:none;margin-top:12px">
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <button class="btn primary" id="btnOpenAdminPanel">Abrir painel admin</button>
-              <button class="btn" id="btnExportCSVAdmin">Exportar CSV (ADM)</button>
-              <button class="btn" id="btnResetVotesAdmin">Resetar votos</button>
+          <div class="small">Pressione <kbd>Shift + F</kbd> para acessar o painel administrativo (senha exigida).</div>
+          <div style="margin-top:12px" id="adminQuickActions" class="hidden">
+            <div class="toolbar">
+              <button class="btn" id="btnOpenAdmin">Abrir painel</button>
+              <button class="btn" id="btnExportCSV">Exportar CSV</button>
+              <button class="btn" id="btnResetVotes">Resetar votos</button>
             </div>
-            <div style="margin-top:12px" id="adminSummary"></div>
+            <div id="paneAdminSummary" style="margin-top:10px"></div>
           </div>
         </div>
 
         <div class="card" style="margin-top:12px">
-          <h4 style="margin:0 0 8px">Informações</h4>
-          <div class="small">Este sistema salva tudo localmente no seu navegador com <code class="code">localStorage</code>. A exportação só está disponível para administradores.</div>
+          <h4 style="margin:0 0 8px">Observações</h4>
+          <div class="small">A exportação e edição só estão disponíveis no painel admin autenticado.</div>
         </div>
       </aside>
     </main>
   </div>
 
-  <!-- Modal de Voto -->
+  <!-- Modal de voto -->
   <div class="modal" id="modalVote">
-    <div class="sheet" style="max-width:520px">
+    <div class="sheet">
       <h3>Confirmar voto em <span id="modalName">—</span>?</h3>
-      <p class="small">Marque a caixa e responda a conta simples para confirmar.</p>
-      <div class="row" style="margin-top:8px"><input type="checkbox" id="chkHuman"/> <label for="chkHuman">Eu não sou um robô</label></div>
-      <div class="row" style="margin-top:8px"><label style="min-width:110px">Quanto é <b id="challenge">2 + 2</b>?</label> <input id="challengeAnswer" class="input" inputmode="numeric"/></div>
-      <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" id="btnCancelVote">Cancelar</button><button class="btn primary" id="btnConfirmVote">Confirmar voto</button></div>
-      <p class="small" id="modalVoteError" style="display:none;color:#f87171;margin-top:8px">Verificação falhou.</p>
-    </div>
-  </div>
-
-  <!-- Modal Admin completo -->
-  <div class="modal" id="modalAdminPanel">
-    <div class="sheet" style="max-width:920px;">
-      <h3>Painel Administrativo</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
-        <div class="card" style="padding:10px">
-          <h4 style="margin:0 0 8px">Concorrentes</h4>
-          <div id="contestantsList" style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow:auto"></div>
-          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:8px 0">
-          <div style="display:flex;gap:8px;align-items:center">
-            <input class="input" id="newName" placeholder="Nome do participante"/>
-            <input class="input" id="newPhoto" placeholder="URL da foto (opcional)"/>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-            <input type="file" id="newPhotoFile" accept="image/*"/>
-            <button class="btn primary" id="btnAddParticipant">Adicionar</button>
-          </div>
-        </div>
-
-        <div class="card" style="padding:10px">
-          <h4 style="margin:0 0 8px">Config & Auditoria</h4>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-            <label style="min-width:150px">Cooldown (s)</label>
-            <input class="input" id="cfgCooldown" type="number" min="0" value="60" style="max-width:120px"/>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-            <label style="min-width:150px">Voto único por sessão</label>
-            <input type="checkbox" id="cfgUnique" checked/>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-            <label style="min-width:150px">Senha admin</label>
-            <input class="input" id="adminPassNew" placeholder="Deixe em branco para manter"/>
-          </div>
-          <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button class="btn" id="btnResetVotes">Zerar votos</button>
-            <button class="btn danger" id="btnWipeAll">Limpar tudo</button>
-            <button class="btn primary" id="btnSaveConfig">Salvar</button>
-          </div>
-        </div>
-
-        <div class="card" style="grid-column:1 / -1;padding:10px">
-          <h4 style="margin:0 0 8px">Estatísticas & Auditoria</h4>
-          <div id="adminStats" class="small"></div>
-          <div style="margin-top:8px;max-height:220px;overflow:auto;background:#071018;border-radius:8px;padding:10px;border:1px solid rgba(255,255,255,0.04)" id="audit"></div>
-          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px"><button class="btn" id="btnClearAudit">Limpar log</button></div>
-        </div>
+      <div class="form-row" style="margin-top:12px">
+        <label><input type="checkbox" id="chkHuman"> Eu não sou um robô</label>
       </div>
-
-      <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn" id="btnCloseAdmin">Fechar</button></div>
+      <div class="form-row" style="margin-top:12px"><label style="min-width:120px">Quanto é <b id="challenge">2 + 2</b>?</label><input id="challengeAnswer" class="input" inputmode="numeric"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+        <button class="btn" id="btnCancelVote">Cancelar</button>
+        <button class="btn primary" id="btnConfirmVote">Confirmar voto</button>
+      </div>
+      <p id="modalVoteError" class="small" style="display:none;color:#f87171;margin-top:8px">Verificação falhou.</p>
     </div>
   </div>
 
-  <button class="admin-btn" id="openAdminQuick">Admin</button>
+  <!-- Painel Admin -->
+  <div id="adminPanel" class="admin-panel" aria-hidden>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <h2 style="margin:0">Painel Administrativo</h2>
+      <div>
+        <button class="btn" id="btnChangePass">Alterar senha</button>
+        <button class="btn" id="btnCloseAdmin">Fechar</button>
+      </div>
+    </div>
+
+    <div class="abas" role="tablist" style="margin-top:12px">
+      <button class="aba ativa" data-aba="participantes">Participantes (Banco)</button>
+      <button class="aba" data-aba="paredao">Paredão Atual</button>
+      <button class="aba" data-aba="estatisticas">Estatísticas</button>
+    </div>
+
+    <section id="aba-participantes" class="card">
+      <h3 style="margin-top:0">Banco de Participantes</h3>
+      <form id="formParticipante" class="form-row">
+        <input id="nomeParticipante" class="input" placeholder="Nome" required>
+        <input id="fotoParticipante" class="input" placeholder="URL da foto (opcional)">
+        <button class="btn primary" type="submit">Adicionar</button>
+      </form>
+      <ul id="listaParticipantes" style="margin-top:12px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow:auto"></ul>
+    </section>
+
+    <section id="aba-paredao" class="card hidden">
+      <h3 style="margin-top:0">Selecionar Paredão</h3>
+      <form id="formParedao">
+        <div id="listaParedao" style="display:flex;flex-direction:column;gap:8px;max-height:320px;overflow:auto"></div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px"><button class="btn primary" type="submit">Salvar Paredão</button></div>
+      </form>
+    </section>
+
+    <section id="aba-estatisticas" class="card hidden">
+      <h3 style="margin-top:0">Estatísticas & Auditoria</h3>
+      <div id="adminStats" class="small" style="margin-bottom:8px"></div>
+      <div id="auditLog" style="max-height:260px;overflow:auto;background:#071018;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px">
+        <button class="btn" id="btnClearAudit">Limpar log</button>
+        <button class="btn" id="btnExportCSVAdmin">Exportar CSV</button>
+        <button class="btn danger" id="btnResetVotesAdmin">Zerar votos</button>
+      </div>
+    </section>
+  </div>
 
 <script>
-/* ======= Chaves e estado padrão ======= */
-const STORAGE_KEY = 'votacao_local_state_v1';
-const ADMIN_PASS_KEY = 'votacao_admin_pass_v1';
-const COOLDOWN_KEY = 'votacao_last_vote_at_v1';
+/* ===== Constantes / Keys ===== */
+const KEY_STATE = 'vot_local_state_v2';
+const KEY_ADMIN_PASS = 'vot_local_admin_pass_v2';
+const KEY_LASTVOTE = 'vot_local_last_vote_v2';
 const DEFAULT_ADMIN_PASS = 'admin123';
 
-const DEFAULT_STATE = {
+/* ===== Estado padrão ===== */
+const DEFAULT = {
   cfg: { cooldownSec: 60, uniquePerSession: true },
-  contestants: [
-    { id:'ana', nome:'Ana', votos:0, photo:null, cor:'#ffd166' },
-    { id:'bruno', nome:'Bruno', votos:0, photo:null, cor:'#ef476f' },
-    { id:'carol', nome:'Carol', votos:0, photo:null, cor:'#06d6a0' }
+  participantsDB: [
+    { id:'ana', nome:'Ana', photo:null, cor:'#ffd166' },
+    { id:'bruno', nome:'Bruno', photo:null, cor:'#ef476f' },
+    { id:'carol', nome:'Carol', photo:null, cor:'#06d6a0' }
   ],
-  total: 0,
+  paredao: ['ana','bruno','carol'], // ids currently in paredao
+  contestantsState: {}, // votes stored by id: { votos: 0 }
   audit: []
 };
 
-/* ======= Utils para persistência ======= */
-function loadState(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(DEFAULT_STATE); }catch(e){ return structuredClone(DEFAULT_STATE);} }
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-let state = loadState();
+/* ===== Carregar / Salvar ===== */
+function loadApp(){ try{ const raw = localStorage.getItem(KEY_STATE); if(!raw) return structuredClone(DEFAULT); return Object.assign(structuredClone(DEFAULT), JSON.parse(raw)); }catch(e){ return structuredClone(DEFAULT); } }
+function saveApp(){ localStorage.setItem(KEY_STATE, JSON.stringify(app)); }
+let app = loadApp();
 
-/* ======= Sessão ======= */
-const sessionId = (()=>{ const k='votacao_session'; let v=sessionStorage.getItem(k); if(!v){ v=Math.random().toString(36).slice(2); sessionStorage.setItem(k,v);} return v; })();
+/* ===== Admin state ===== */
+let isAdmin = false;
+let sessionId = (()=>{ const k='vot_session_v2'; let v=sessionStorage.getItem(k); if(!v){ v=Math.random().toString(36).slice(2); sessionStorage.setItem(k,v); } return v; })();
 
-/* ======= Elementos ======= */
+/* ===== Elementos ===== */
 const els = {
   grid: document.getElementById('grid'),
-  voteCountPill: document.getElementById('voteCountPill'),
-  cooldownPill: document.getElementById('cooldownPill'),
-  btnEnterAdmin: document.getElementById('btnEnterAdmin'),
-  btnAbout: document.getElementById('btnAbout'),
-  panelAdmin: document.getElementById('panelAdmin'),
-  btnOpenAdminPanel: document.getElementById('btnOpenAdminPanel'),
+  statusArea: document.getElementById('statusArea'),
   modalVote: document.getElementById('modalVote'),
   modalName: document.getElementById('modalName'),
   chkHuman: document.getElementById('chkHuman'),
   challenge: document.getElementById('challenge'),
   challengeAnswer: document.getElementById('challengeAnswer'),
-  modalVoteError: document.getElementById('modalVoteError'),
   btnCancelVote: document.getElementById('btnCancelVote'),
   btnConfirmVote: document.getElementById('btnConfirmVote'),
-  openAdminQuick: document.getElementById('openAdminQuick'),
-  modalAdminPanel: document.getElementById('modalAdminPanel'),
-  contestantsList: document.getElementById('contestantsList'),
-  newName: document.getElementById('newName'),
-  newPhoto: document.getElementById('newPhoto'),
-  newPhotoFile: document.getElementById('newPhotoFile'),
-  btnAddParticipant: document.getElementById('btnAddParticipant'),
-  cfgCooldown: document.getElementById('cfgCooldown'),
-  cfgUnique: document.getElementById('cfgUnique'),
-  adminPassNew: document.getElementById('adminPassNew'),
-  btnSaveConfig: document.getElementById('btnSaveConfig'),
+  adminPanel: document.getElementById('adminPanel'),
+  adminQuickActions: document.getElementById('adminQuickActions'),
+  btnOpenAdmin: document.getElementById('btnOpenAdmin'),
+  btnExportCSV: document.getElementById('btnExportCSV'),
   btnResetVotes: document.getElementById('btnResetVotes'),
-  btnWipeAll: document.getElementById('btnWipeAll'),
+  listaParticipantes: document.getElementById('listaParticipantes'),
+  formParticipante: document.getElementById('formParticipante'),
+  nomeParticipante: document.getElementById('nomeParticipante'),
+  fotoParticipante: document.getElementById('fotoParticipante'),
+  listaParedao: document.getElementById('listaParedao'),
+  formParedao: document.getElementById('formParedao'),
+  btnCloseAdmin: document.getElementById('btnCloseAdmin'),
+  abas: document.querySelectorAll('.aba'),
+  abaPart: document.getElementById('aba-participantes'),
+  abaParedao: document.getElementById('aba-paredao'),
+  abaStats: document.getElementById('aba-estatisticas'),
   adminStats: document.getElementById('adminStats'),
-  audit: document.getElementById('audit'),
+  auditLog: document.getElementById('auditLog'),
   btnClearAudit: document.getElementById('btnClearAudit'),
   btnExportCSVAdmin: document.getElementById('btnExportCSVAdmin'),
   btnResetVotesAdmin: document.getElementById('btnResetVotesAdmin'),
-  panelPublic: document.getElementById('panelPublic'),
-  adminSummary: document.getElementById('adminSummary'),
-  btnCloseAdmin: document.getElementById('btnCloseAdmin')
+  paneAdminSummary: document.getElementById('paneAdminSummary')
 };
 
-let isAdmin = false;
-let currentVoteTarget = null;
-let activeChallenge = null;
-
-/* ======= Segurança simples: senha admin (localStorage) ======= */
-function getSavedAdminPass(){ return localStorage.getItem(ADMIN_PASS_KEY) || DEFAULT_ADMIN_PASS; }
-function setSavedAdminPass(v){ localStorage.setItem(ADMIN_PASS_KEY, v); }
-
-/* ======= Funções utilitárias ======= */
+/* ===== Utils ===== */
 function fmtInt(n){ return new Intl.NumberFormat('pt-BR').format(n); }
 function fmtPct(x){ return (x*100).toFixed(1).replace('.',',') + '%'; }
 function generateId(seed){ const base=(seed||'p').toString().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'').slice(0,12); return base+'-'+Math.random().toString(36).slice(2,6); }
 function randomColor(){ const colors=['#ffd166','#ef476f','#06d6a0','#8ecae6','#f9c74f','#90be6d']; return colors[Math.floor(Math.random()*colors.length)]; }
 function escapeHtml(s){ return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'); }
 
-/* ======= Recalcula totais ======= */
-function recalc(){ const total = state.contestants.reduce((s,c)=>s+c.votos,0); state.total = total; saveState(); return total; }
+/* ===== Voting data helpers ===== */
+function ensureContestantState(id){ if(!app.contestantsState[id]) app.contestantsState[id] = { votos: 0 }; }
+function totalVotes(){ return Object.values(app.contestantsState).reduce((s,x)=>s+(x.votos||0),0); }
 
-/* ======= Renderização ======= */
-function render(){ const total = Math.max(1, recalc()); els.grid.innerHTML = '';
-  state.contestants.forEach(c=>{
-    const pct = total ? (c.votos/total) : 0;
-    const card = document.createElement('div'); card.className='card';
-    const media = document.createElement('div'); media.className='media';
-    if(c.photo){ const img = document.createElement('img'); img.src=c.photo; img.alt=c.nome; media.appendChild(img); }
-    else{ const span = document.createElement('div'); span.className='avatarLetters'; span.style.background = 'linear-gradient(145deg,'+ (c.cor||'#cbd5e1') +',#e5e7eb)'; span.textContent = c.nome.slice(0,1).toUpperCase(); media.appendChild(span); }
-    const body = document.createElement('div'); body.className='body';
-    const titleRow = document.createElement('div'); titleRow.style.display='flex'; titleRow.style.justifyContent='space-between';
-    const nm = document.createElement('div'); nm.className='name'; nm.textContent = c.nome;
-    const muted = document.createElement('div'); muted.className='muted';
-    if(isAdmin){ muted.textContent = fmtInt(c.votos) + ' • ' + fmtPct(pct); } else { muted.textContent = ''; }
-    titleRow.appendChild(nm); titleRow.appendChild(muted);
-    const bar = document.createElement('div'); bar.className='bar'; const inner = document.createElement('i'); inner.style.width = (isAdmin ? (pct*100 + '%') : '0%'); bar.appendChild(inner);
-    const actions = document.createElement('div'); actions.className='actions';
-    const btnVote = document.createElement('button'); btnVote.className='btn primary'; btnVote.textContent = 'Votar em ' + c.nome; btnVote.onclick = ()=> openVote(c.id);
-    const btnShare = document.createElement('button'); btnShare.className='btn'; btnShare.textContent='Compartilhar'; btnShare.onclick = ()=> share(c.id);
-    actions.appendChild(btnVote); actions.appendChild(btnShare);
-    body.appendChild(titleRow); body.appendChild(bar); body.appendChild(actions);
-    card.appendChild(media); card.appendChild(body);
-    els.grid.appendChild(card);
-  });
+/* init contestantState for DB entries */
+app.participantsDB.forEach(p=> ensureContestantState(p.id));
+saveApp();
 
-  els.voteCountPill.textContent = fmtInt(state.total || 0) + ' votos';
-  const rem = msRemaining(); els.cooldownPill.textContent = rem>0 ? ('Aguarde '+Math.ceil(rem/1000)+'s') : 'Pronto';
-  renderAdminArea();
+/* ===== Render voting grid (shows only paredao participants) ===== */
+function renderGrid(){ els.grid.innerHTML = ''; const total = Math.max(1, totalVotes()); app.paredao.forEach(id=>{ const p = app.participantsDB.find(x=>x.id===id); if(!p) return; const votes = app.contestantsState[p.id]?.votos||0; const pct = total ? (votes/total) : 0;
+  const card = document.createElement('div'); card.className='card';
+  const media = document.createElement('div'); media.className='media';
+  if(p.photo){ const img = document.createElement('img'); img.src = p.photo; img.alt = p.nome; media.appendChild(img); } else { const span = document.createElement('div'); span.className='avatarLetters'; span.style.background = 'linear-gradient(145deg,'+(p.cor||'#cbd5e1')+',#e5e7eb)'; span.textContent = p.nome.slice(0,1).toUpperCase(); media.appendChild(span); }
+  const body = document.createElement('div'); body.className='body';
+  const titleRow = document.createElement('div'); titleRow.style.display='flex'; titleRow.style.justifyContent='space-between';
+  const nm = document.createElement('div'); nm.className='name'; nm.textContent = p.nome;
+  const muted = document.createElement('div'); muted.className='muted';
+  if(isAdmin){ muted.textContent = fmtInt(votes)+' • '+fmtPct(pct); } else { muted.textContent = ''; }
+  titleRow.appendChild(nm); titleRow.appendChild(muted);
+  const bar = document.createElement('div'); bar.className='bar'; const inner = document.createElement('i'); inner.style.width = isAdmin ? (pct*100 + '%') : '0%'; bar.appendChild(inner);
+  const actions = document.createElement('div'); actions.className='actions';
+  const btnVote = document.createElement('button'); btnVote.className='btn primary'; btnVote.textContent = 'Votar em ' + p.nome; btnVote.onclick = ()=> openVote(p.id);
+  const btnShare = document.createElement('button'); btnShare.className='btn'; btnShare.textContent='Compartilhar'; btnShare.onclick = ()=> share(p.id);
+  actions.appendChild(btnVote); actions.appendChild(btnShare);
+  body.appendChild(titleRow); body.appendChild(bar); body.appendChild(actions);
+  card.appendChild(media); card.appendChild(body);
+  els.grid.appendChild(card);
+});
+document.getElementById('statusArea').textContent = totalVotes() + ' votos totais';
 }
 
-/* ======= Cooldown ======= */
-function msRemaining(){ const last = Number(localStorage.getItem(COOLDOWN_KEY) || 0); const diff = state.cfg.cooldownSec*1000 - (Date.now()-last); return Math.max(0,diff); }
+/* ===== Vote modal logic ===== */
+let currentTarget = null; let activeChallenge = null;
+function openVote(id){ if(msRemaining()>0){ alert('Aguarde o cooldown'); return; } if(app.cfg.uniquePerSession && app.audit.some(a=>a.session===sessionId)){ alert('Voto único por sessão habilitado'); return; }
+  const p = app.participantsDB.find(x=>x.id===id); if(!p) return; currentTarget = p; document.getElementById('modalName').textContent = p.nome; const a = Math.floor(3+Math.random()*7), b = Math.floor(2+Math.random()*8); activeChallenge={a,b}; document.getElementById('challenge').textContent = a+' + '+b; document.getElementById('chkHuman').checked=false; document.getElementById('challengeAnswer').value=''; document.getElementById('modalVote').classList.add('open'); document.getElementById('modalVoteError').style.display='none'; document.getElementById('challengeAnswer').focus(); }
+function confirmVote(){ const ok = document.getElementById('chkHuman').checked; const ans = Number(document.getElementById('challengeAnswer').value.trim()); if(!ok || ans !== (activeChallenge.a + activeChallenge.b)){ document.getElementById('modalVoteError').style.display='block'; return; } ensureContestantState(currentTarget.id); app.contestantsState[currentTarget.id].votos += 1; app.audit.push({ at: Date.now(), who: currentTarget.nome, id: currentTarget.id, session: sessionId }); localStorage.setItem(KEY_LASTVOTE, String(Date.now())); saveApp(); document.getElementById('modalVote').classList.remove('open'); renderGrid(); }
 
-/* ======= Votação ======= */
-function openVote(id){ if(msRemaining()>0){ alert('Aguarde o cooldown para votar novamente.'); return; }
-  if(state.cfg.uniquePerSession && state.audit.some(a=>a.session===sessionId)){ alert('Voto único por sessão habilitado.'); return; }
-  const c = state.contestants.find(x=>x.id===id); if(!c){ alert('Participante inválido'); return; }
-  currentVoteTarget = c; els.modalName.textContent = c.nome; const a = Math.floor(3+Math.random()*7), b=Math.floor(2+Math.random()*8); activeChallenge={a,b,op:'+'}; document.getElementById('challenge').textContent = a + ' + ' + b; els.chkHuman.checked=false; els.challengeAnswer.value=''; els.modalVote.classList.add('open'); els.modalVoteError.style.display='none'; els.challengeAnswer.focus(); }
+/* ===== Cooldown ===== */
+function msRemaining(){ const last = Number(localStorage.getItem(KEY_LASTVOTE) || 0); const diff = app.cfg.cooldownSec*1000 - (Date.now()-last); return Math.max(0,diff); }
+setInterval(()=>{ const rem = msRemaining(); document.getElementById('statusArea').textContent = (msRemaining()>0 ? ('Aguarde '+Math.ceil(rem/1000)+'s') : '') + (isAdmin?(' • Modo admin'):''); },1000);
 
-function confirmVote(){ const okHuman = els.chkHuman.checked; const ans = Number(els.challengeAnswer.value.trim()); const right = activeChallenge && ans === (activeChallenge.a + activeChallenge.b); if(!okHuman || !right){ els.modalVoteError.style.display='block'; return; }
-  currentVoteTarget.votos += 1; state.audit.push({ at: Date.now(), who: currentVoteTarget.nome, session: sessionId, id: currentVoteTarget.id }); localStorage.setItem(COOLDOWN_KEY, String(Date.now())); saveState(); els.modalVote.classList.remove('open'); render(); }
+/* ===== Share ===== */
+function share(id){ const p = app.participantsDB.find(x=>x.id===id); const text = 'Vote em '+p.nome; if(navigator.share){ navigator.share({title:'Votação',text, url:location.href}).catch(()=>{}); } else { navigator.clipboard?.writeText(text+' '+location.href); alert('Link copiado'); } }
 
-/* ======= Compartilhar ======= */
-function share(id){ const c = state.contestants.find(x=>x.id===id); if(!c) return; const shareText = 'Vote em '+c.nome+' — Paredão'; if(navigator.share){ navigator.share({title:'Votação',text:shareText,url:location.href}).catch(()=>{}); } else { navigator.clipboard?.writeText(shareText+' '+location.href); alert('Link copiado!'); } }
+/* ===== Admin: bank CRUD and paredao selection ===== */
+function renderParticipantsBank(){ els.listaParticipantes.innerHTML=''; app.participantsDB.forEach((p,idx)=>{
+  const div = document.createElement('div'); div.style.display='flex'; div.style.alignItems='center'; div.style.justifyContent='space-between'; div.style.gap='8px';
+  const left = document.createElement('div'); left.style.display='flex'; left.style.alignItems='center'; left.style.gap='8px';
+  const thumb = document.createElement('div'); thumb.style.width='56px'; thumb.style.height='56px'; thumb.style.borderRadius='8px'; thumb.style.overflow='hidden';
+  if(p.photo){ const img = document.createElement('img'); img.src=p.photo; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover'; thumb.appendChild(img); } else { thumb.style.background=p.cor||'#cbd5e1'; thumb.style.display='grid'; thumb.style.placeItems='center'; thumb.style.color='#0b0d12'; thumb.style.fontWeight='700'; thumb.textContent=p.nome.slice(0,1).toUpperCase(); }
+  const txt = document.createElement('div'); txt.innerHTML = '<div style="font-weight:700">'+escapeHtml(p.nome)+'</div><div class="small">'+escapeHtml(p.id)+'</div>';
+  left.appendChild(thumb); left.appendChild(txt);
+  const right = document.createElement('div'); right.style.display='flex'; right.style.gap='6px';
+  const btnEdit = document.createElement('button'); btnEdit.className='btn'; btnEdit.textContent='Editar'; btnEdit.onclick = ()=> editParticipant(idx);
+  const btnDel = document.createElement('button'); btnDel.className='btn danger'; btnDel.textContent='Remover'; btnDel.onclick = ()=> { if(confirm('Remover participante?')){ const id = app.participantsDB[idx].id; app.participantsDB.splice(idx,1); delete app.contestantsState[id]; app.paredao = app.paredao.filter(x=>x!==id); saveApp(); renderParticipantsBank(); renderParedaoList(); renderGrid(); } };
+  right.appendChild(btnEdit); right.appendChild(btnDel);
+  div.appendChild(left); div.appendChild(right); els.listaParticipantes.appendChild(div);
+}); }
+function editParticipant(index){ const p = app.participantsDB[index]; const name = prompt('Nome', p.nome); if(name===null) return; const photo = prompt('URL da foto (deixe em branco para remover)', p.photo||''); p.nome = name.trim() || p.nome; p.photo = (photo===null) ? p.photo : (photo.trim()||null); saveApp(); renderParticipantsBank(); renderGrid(); }
+function addParticipant(name, photo){ const id = generateId(name); const newP = { id, nome: name, photo: photo||null, cor: randomColor() }; app.participantsDB.push(newP); ensureContestantState(id); saveApp(); renderParticipantsBank(); renderParedaoList(); }
 
-/* ======= Import/Export ======= */
-function download(filename, content, type='application/json'){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type})); a.download=filename; a.click(); URL.revokeObjectURL(a.href); }
-function exportJSON(){ download('votacao.json', JSON.stringify(state,null,2)); }
-function exportCSV(){ // only admin
-  const rows=[['timestamp','concorrente','sessao']].concat(state.audit.map(a=>[ new Date(a.at).toISOString(), a.who, a.session ]));
-  const csv = rows.map(r=>r.map(v=>('"'+String(v).replace(/"/g,'""')+'"')).join(',')).join('\n');
-  download('auditoria.csv', csv, 'text/csv'); }
+/* Paredao list (checkboxes to select from bank) */
+function renderParedaoList(){ els.listaParedao.innerHTML=''; app.participantsDB.forEach(p=>{
+  const row = document.createElement('label'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='8px';
+  const cb = document.createElement('input'); cb.type='checkbox'; cb.value = p.id; cb.checked = app.paredao.includes(p.id);
+  const txt = document.createElement('span'); txt.textContent = p.nome;
+  row.appendChild(cb); row.appendChild(txt); els.listaParedao.appendChild(row);
+}); }
 
-/* ======= Admin: render lista e funções ======= */
-function renderAdminArea(){ // painel resumido
-  if(!isAdmin){ els.panelAdmin.style.display='none'; els.panelPublic.style.display='block'; els.adminSummary.innerHTML=''; return; }
-  els.panelAdmin.style.display='block'; els.panelPublic.style.display='none';
-  // summary
-  const total = state.total||0; els.adminSummary.innerHTML = '<div class="small">Votos totais: <b>'+fmtInt(total)+'</b></div>';
-  // admin stats
-  const lines = state.contestants.map(c=>{ const pct = total? (c.votos/total):0; return escapeHtml(c.nome)+' — '+fmtInt(c.votos)+' votos ('+fmtPct(pct)+')'; });
-  els.adminStats.innerHTML = '<div class="small">Total: '+fmtInt(total)+' votos</div><div style="margin-top:6px">'+lines.join('<br>')+'</div>';
-
-  // audit
-  els.audit.innerHTML = state.audit.slice(-200).reverse().map(a=>{ const ts = new Date(a.at).toLocaleString('pt-BR'); return '<div>['+ts+'] voto em <b>'+escapeHtml(a.who)+'</b> • sess:'+escapeHtml(a.session.slice(0,6))+'</div>'; }).join('');
-
-  // contestants list editor
-  els.contestantsList.innerHTML = '';
-  state.contestants.forEach((c,idx)=>{
-    const div = document.createElement('div'); div.style.display='flex'; div.style.justifyContent='space-between'; div.style.alignItems='center';
-    const left = document.createElement('div'); left.style.display='flex'; left.style.gap='8px'; left.style.alignItems='center';
-    const thumb = document.createElement('div'); thumb.style.width='56px'; thumb.style.height='56px'; thumb.style.borderRadius='8px'; thumb.style.overflow='hidden';
-    if(c.photo){ const img=document.createElement('img'); img.src=c.photo; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover'; thumb.appendChild(img); }
-    else{ thumb.style.background=c.cor||'#cbd5e1'; thumb.style.display='grid'; thumb.style.placeItems='center'; thumb.style.color='#0b0d12'; thumb.style.fontWeight='700'; thumb.textContent=c.nome.slice(0,1).toUpperCase(); }
-    const txt = document.createElement('div'); txt.innerHTML = '<div style="font-weight:700">'+escapeHtml(c.nome)+'</div><div class="small">'+escapeHtml(c.id)+' • '+fmtInt(c.votos)+' votos</div>';
-    left.appendChild(thumb); left.appendChild(txt);
-    const right = document.createElement('div'); right.style.display='flex'; right.style.gap='6px';
-    const btnEdit = document.createElement('button'); btnEdit.className='btn'; btnEdit.textContent='Editar'; btnEdit.onclick = ()=> openEditParticipant(idx);
-    const btnDel = document.createElement('button'); btnDel.className='btn danger'; btnDel.textContent='Remover'; btnDel.onclick = ()=> { if(confirm('Remover participante?')){ state.contestants.splice(idx,1); saveState(); render(); } };
-    right.appendChild(btnEdit); right.appendChild(btnDel);
-    div.appendChild(left); div.appendChild(right); els.contestantsList.appendChild(div);
-  });
+/* Estatísticas */
+function renderAdminStats(){ const total = totalVotes(); els.adminStats.innerHTML = '<div class="small">Total: '+fmtInt(total)+' votos</div>';
+  const lines = app.participantsDB.map(p=>{ const v = app.contestantsState[p.id]?.votos||0; const pct = total? (v/total):0; return escapeHtml(p.nome)+' — '+fmtInt(v)+' votos ('+fmtPct(pct)+')'; });
+  els.adminStats.innerHTML += '<div style="margin-top:8px">'+lines.join('<br>')+'</div>';
+  els.auditLog.innerHTML = app.audit.slice(-300).reverse().map(a=>{ const ts = new Date(a.at).toLocaleString('pt-BR'); return '<div>['+ts+'] voto em <b>'+escapeHtml(a.who)+'</b> • sess:'+escapeHtml(a.session.slice(0,6))+'</div>'; }).join('');
+  els.paneAdminSummary.innerHTML = '<div class="small">Modo admin ativo</div>';
 }
 
-function openEditParticipant(index){ const p = state.contestants[index]; const name = prompt('Nome do participante', p.nome); if(name===null) return; const photo = prompt('URL da foto (deixe em branco para remover)', p.photo||''); p.nome = name.trim() || p.nome; p.photo = photo===null ? p.photo : (photo.trim() || null); saveState(); render(); }
+/* ===== Exports / Admin actions ===== */
+function exportCSV_admin(){ if(!isAdmin){ alert('Somente admin'); return; } const rows=[['timestamp','concorrente','id','sessao']].concat(app.audit.map(a=>[ new Date(a.at).toISOString(), a.who, a.id, a.session ])); const csv = rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n'); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download = 'auditoria.csv'; a.click(); URL.revokeObjectURL(a.href); }
+function resetVotes_admin(){ if(!confirm('Zerar votos e auditoria?')) return; Object.keys(app.contestantsState).forEach(k=> app.contestantsState[k].votos = 0); app.audit = []; saveApp(); renderGrid(); renderAdminStats(); }
+function clearAudit_admin(){ if(!confirm('Limpar registro de auditoria?')) return; app.audit = []; saveApp(); renderAdminStats(); }
 
-function addParticipantFromInputs(){ const name = els.newName.value.trim(); const url = els.newPhoto.value.trim(); if(!name){ alert('Informe o nome.'); return; } const id = generateId(name); const newP = { id, nome: name, votos:0, photo: url||null, cor: randomColor() }; state.contestants.push(newP); els.newName.value=''; els.newPhoto.value=''; saveState(); render(); }
+/* ===== Admin auth (Shift+F) and panel management ===== */
+function getSavedPass(){ return localStorage.getItem(KEY_ADMIN_PASS) || DEFAULT_ADMIN_PASS; }
+function setSavedPass(v){ localStorage.setItem(KEY_ADMIN_PASS,v); }
+function promptUnlock(){ const pass = prompt('Senha admin:'); if(pass===null) return; if(pass !== getSavedPass()){ alert('Senha incorreta'); return; } isAdmin = true; document.getElementById('adminQuickActions').classList.remove('hidden'); renderGrid(); renderParticipantsBank(); renderParedaoList(); renderAdminStats(); alert('Admin desbloqueado'); }
+window.addEventListener('keydown', (e)=>{ if(e.shiftKey && e.key.toLowerCase() === 'f'){ e.preventDefault(); promptUnlock(); } });
 
-function addParticipantFromFile(file){ if(!file) return; const name = els.newName.value.trim(); if(!name){ alert('Informe o nome antes de enviar a foto.'); return; } const reader = new FileReader(); reader.onload = (e)=>{ const dataUrl = e.target.result; const id = generateId(name); state.contestants.push({ id, nome: name, votos:0, photo: dataUrl, cor: randomColor() }); els.newName.value=''; els.newPhoto.value=''; els.newPhotoFile.value=''; saveState(); render(); }; reader.readAsDataURL(file); }
+/* Open panel */
+document.getElementById('btnOpenAdmin').addEventListener('click', ()=>{ if(!isAdmin){ alert('Desbloqueie o admin (Shift+F) antes'); return; } document.getElementById('adminPanel').classList.add('open'); });
+document.getElementById('btnCloseAdmin').addEventListener('click', ()=> document.getElementById('adminPanel').classList.remove('open'));
 
-/* ======= Admin actions ======= */
-function unlockAdmin(){ const pass = prompt('Senha admin:'); if(pass===null) return; if(pass !== getSavedAdminPass()){ alert('Senha incorreta'); return; } isAdmin = true; // show admin UI
-  // populate config
-  els.cfgCooldown.value = state.cfg.cooldownSec; els.cfgUnique.checked = !!state.cfg.uniquePerSession; render(); alert('Painel admin desbloqueado'); }
+/* Aba switch */
+els.abas.forEach(b=> b.addEventListener('click', ()=>{ els.abas.forEach(x=>x.classList.remove('ativa')); b.classList.add('ativa'); const a = b.getAttribute('data-aba'); document.getElementById('aba-participantes').classList.toggle('hidden', a!=='participantes'); document.getElementById('aba-paredao').classList.toggle('hidden', a!=='paredao'); document.getElementById('aba-estatisticas').classList.toggle('hidden', a!=='estatisticas'); renderAdminStats(); }));
 
-function saveConfig(){ const newPass = els.adminPassNew.value.trim(); if(newPass){ setSavedAdminPass(newPass); els.adminPassNew.value=''; alert('Senha alterada.'); }
-  state.cfg.cooldownSec = Math.max(0, Number(els.cfgCooldown.value||0)); state.cfg.uniquePerSession = !!els.cfgUnique.checked; saveState(); render(); alert('Configurações salvas.'); }
+/* Form handlers */
+els.formParticipante.addEventListener('submit', (ev)=>{ ev.preventDefault(); const name = els.nomeParticipante.value.trim(); const photo = els.fotoParticipante.value.trim() || null; if(!name) return; addParticipant(name, photo); els.nomeParticipante.value=''; els.fotoParticipante.value=''; });
+els.formParedao.addEventListener('submit', (ev)=>{ ev.preventDefault(); const checks = Array.from(els.listaParedao.querySelectorAll('input[type=checkbox]')); app.paredao = checks.filter(c=>c.checked).map(c=>c.value); saveApp(); renderGrid(); alert('Paredão salvo'); });
 
-function resetVotes(){ if(!confirm('Zerar votos e auditoria?')) return; state.contestants.forEach(c=>c.votos=0); state.audit=[]; saveState(); render(); }
-function wipeAll(){ if(!confirm('Apagar tudo (config/estado)? Esta ação é irreversível.')) return; localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(COOLDOWN_KEY); localStorage.removeItem(ADMIN_PASS_KEY); state = structuredClone(DEFAULT_STATE); saveState(); render(); alert('Tudo apagado.'); }
-function clearAudit(){ if(!confirm('Limpar registro de auditoria?')) return; state.audit=[]; saveState(); render(); }
+/* Modal vote buttons */
+document.getElementById('btnCancelVote').addEventListener('click', ()=> document.getElementById('modalVote').classList.remove('open'));
+document.getElementById('btnConfirmVote').addEventListener('click', ()=> confirmVote());
 
-/* ======= Export CSV only for admin via UI button ======= */
-function adminExportCSV(){ if(!isAdmin){ alert('Somente admin pode exportar.'); return; } exportCSV(); }
+/* Admin quick actions/buttons */
+document.getElementById('btnExportCSV').addEventListener('click', ()=> { if(!isAdmin){ alert('Desbloqueie o admin (Shift+F)'); return; } exportCSV_admin(); });
+document.getElementById('btnResetVotes').addEventListener('click', ()=>{ if(!isAdmin){ alert('Desbloqueie o admin (Shift+F)'); return; } resetVotes_admin(); });
+document.getElementById('btnExportCSVAdmin').addEventListener('click', ()=> exportCSV_admin());
+document.getElementById('btnResetVotesAdmin').addEventListener('click', ()=> resetVotes_admin());
+document.getElementById('btnClearAudit').addEventListener('click', ()=> clearAudit_admin());
 
-/* ======= Eventos ======= */
-els.btnEnterAdmin.onclick = ()=> unlockAdmin();
-els.btnAbout.onclick = ()=> alert('Código pronto para publicar no GitHub. Sistema local (localStorage).');
-els.openAdminQuick.onclick = ()=> unlockAdmin();
-els.btnOpenAdminPanel.onclick = ()=> { if(!isAdmin){ alert('Desbloqueie o admin antes.'); return; } els.modalAdminPanel.classList.add('open'); };
-els.btnCloseAdmin.onclick = ()=> els.modalAdminPanel.classList.remove('open');
-els.btnAddParticipant.onclick = ()=> { if(els.newPhotoFile.files && els.newPhotoFile.files[0]) addParticipantFromFile(els.newPhotoFile.files[0]); else addParticipantFromInputs(); };
-els.newPhotoFile.onchange = ()=> { if(els.newPhotoFile.files && els.newPhotoFile.files[0]) addParticipantFromFile(els.newPhotoFile.files[0]); };
-els.btnSaveConfig.onclick = saveConfig;
-els.btnResetVotes.onclick = resetVotes;
-els.btnWipeAll.onclick = wipeAll;
-els.btnClearAudit.onclick = clearAudit;
-els.btnExportCSVAdmin.onclick = adminExportCSV;
-els.btnResetVotesAdmin.onclick = ()=>{ if(!isAdmin){ alert('Somente admin.'); return; } resetVotes(); };
+document.getElementById('btnChangePass').addEventListener('click', ()=>{ if(!isAdmin){ alert('Somente admin autenticado'); return; } const np = prompt('Nova senha (deixe em branco para cancelar)'); if(np===null || np==='') return; setSavedPass(np); alert('Senha alterada'); });
 
-els.btnCancelVote.onclick = ()=> els.modalVote.classList.remove('open');
-els.btnConfirmVote.onclick = confirmVote;
-
-/* ======= Inicialização ======= */
-function init(){ // migrate backward if needed
-  if(!localStorage.getItem(ADMIN_PASS_KEY)) localStorage.setItem(ADMIN_PASS_KEY, DEFAULT_ADMIN_PASS);
-  if(!state || !state.contestants) state = structuredClone(DEFAULT_STATE);
-  recalc(); render();
-}
-
-// Atualiza cooldown UI a cada segundo
-setInterval(()=>{ const rem = msRemaining(); els.cooldownPill.textContent = rem>0 ? ('Aguarde '+Math.ceil(rem/1000)+'s') : 'Pronto'; },1000);
-
+/* Inicialização */
+function init(){ // ensure contestantState contains db ids
+  app.participantsDB.forEach(p=> ensureContestantState(p.id)); saveApp(); renderParticipantsBank(); renderParedaoList(); renderGrid(); }
 init();
 </script>
 </body>
